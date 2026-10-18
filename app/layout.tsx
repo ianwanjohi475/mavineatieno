@@ -9,6 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://mavineatieno.vercel.app"),
   title: "Mavine Brenda Atieno | Customer Care Leadership & Professional Portfolio",
   description:
     "Professional portfolio of Mavine Brenda Atieno, Head of Customer Care Representative Agents at VTL Telecom Company, Nairobi, Kenya. Customer Experience · Telecommunications · Public Health Officer.",

@@ -87,39 +87,57 @@ export function Referees() {
 /* ------------------------------------------------------------------ */
 
 // Static site, no backend: messages are relayed to Mavine's inbox by FormSubmit.
-// The very first submission triggers a one-time activation email to that inbox.
+// Until the inbox owner clicks the one-time "Activate Form" email FormSubmit sends,
+// every submission is rejected; visitors then get a pre-filled email fallback.
 const FORM_ENDPOINT = `https://formsubmit.co/ajax/${profile.email}`;
 
 type Status = "idle" | "sending" | "sent" | "error";
+type Draft = { name: string; email: string; subject: string; message: string };
+
+function mailtoFor(d: Draft) {
+  const subject = encodeURIComponent(d.subject || "Job opportunity");
+  const body = encodeURIComponent(`Hi Mavine,\n\n${d.message}\n\n${d.name}\n${d.email}`);
+  return `mailto:${profile.email}?subject=${subject}&body=${body}`;
+}
 
 export function Contact() {
   const [status, setStatus] = useState<Status>("idle");
+  const [draft, setDraft] = useState<Draft | null>(null);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
     if (data.get("_honey")) return;
+    const d: Draft = {
+      name: String(data.get("name") || ""),
+      email: String(data.get("email") || ""),
+      subject: String(data.get("subject") || ""),
+      message: String(data.get("message") || ""),
+    };
+    setDraft(d);
     setStatus("sending");
     try {
+      if (window.location.protocol === "file:") throw new Error("opened as a local file");
       const res = await fetch(FORM_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          name: data.get("name"),
-          email: data.get("email"),
-          _replyto: data.get("email"),
-          _subject: `Portfolio: ${data.get("subject") || "New message"}`,
-          message: data.get("message"),
+          name: d.name,
+          email: d.email,
+          _replyto: d.email,
+          _subject: `Portfolio: ${d.subject || "New message"}`,
+          message: d.message,
           _template: "table",
           _captcha: "false",
         }),
       });
       const json = await res.json().catch(() => ({}));
-      if (!res.ok || json.success === "false" || json.success === false) throw new Error("send failed");
+      if (!res.ok || String(json.success) !== "true") throw new Error(json.message || `HTTP ${res.status}`);
       setStatus("sent");
       form.reset();
-    } catch {
+    } catch (err) {
+      console.warn("Contact form not delivered:", err);
       setStatus("error");
     }
   }
@@ -205,38 +223,40 @@ export function Contact() {
               <span className="mb-1.5 block text-sm font-medium text-ink">Message</span>
               <textarea name="message" required rows={5} className={`${input} resize-y`} />
             </label>
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <button
-                type="submit"
-                disabled={status === "sending"}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-hover disabled:cursor-wait disabled:opacity-70 sm:w-auto"
-              >
-                {status === "sending" ? (
-                  <>
-                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" /> Sending…
-                  </>
-                ) : (
-                  <>
-                    Send message <Ico icon={Send2} size={17} />
-                  </>
-                )}
-              </button>
-              <p aria-live="polite" className="text-sm">
-                {status === "sent" && (
-                  <span className="flex items-center gap-1.5 font-medium text-[#057642] dark:text-[#3ecf8e]">
-                    <Ico icon={TickCircle} size={18} variant="Bold" /> Thank you, your message has been sent.
-                  </span>
-                )}
-                {status === "error" && (
-                  <span className="text-[#b42318] dark:text-[#f97066]">
-                    Message could not be sent. Please email{" "}
-                    <a href={`mailto:${profile.email}`} className="font-semibold underline">
-                      {profile.email}
-                    </a>
-                    .
-                  </span>
-                )}
-              </p>
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-hover disabled:cursor-wait disabled:opacity-70 sm:w-auto"
+            >
+              {status === "sending" ? (
+                <>
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" /> Sending…
+                </>
+              ) : (
+                <>
+                  Send message <Ico icon={Send2} size={17} />
+                </>
+              )}
+            </button>
+
+            <div aria-live="polite">
+              {status === "sent" && (
+                <p className="mt-4 flex items-center gap-2 rounded-lg border border-[#057642]/25 bg-[#057642]/[0.06] p-3 text-sm font-medium text-[#057642] dark:text-[#3ecf8e]">
+                  <Ico icon={TickCircle} size={18} variant="Bold" /> Thank you, your message has been sent. I will get back to you soon.
+                </p>
+              )}
+              {status === "error" && draft && (
+                <div className="mt-4 rounded-lg border border-line bg-surface p-4 text-sm">
+                  <p className="font-medium text-ink">Your message could not be sent from this form right now.</p>
+                  <p className="mt-1">You can send the same message from your email app instead. It is already filled in.</p>
+                  <a
+                    href={mailtoFor(draft)}
+                    className="mt-3 inline-flex items-center gap-2 rounded-lg border border-brand px-4 py-2.5 font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
+                  >
+                    <Ico icon={Sms} size={17} /> Send via email
+                  </a>
+                </div>
+              )}
             </div>
           </form>
         </Reveal>

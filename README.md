@@ -14,8 +14,10 @@ Built with **Next.js (App Router)**, **Tailwind CSS v4**, **Framer Motion**, **I
 - Clean card layout; on hover cards lift slightly, the border turns teal and the icon fills in
 - Scroll-linked experience timeline, count-up stats, infinite marquees
 - Grouped skills: Telecom & ISP systems (SmartOLT, MikroTik, oneISP, CRM), office tools, customer service operations, data & reporting
-- Contact form that emails Mavine directly through FormSubmit (no backend needed); the first message sends her a one-time activation email to confirm
+- Contact form that emails Mavine directly through FormSubmit (no backend needed). FormSubmit only delivers after the one-time "Activate Form" email sent to mavineatieno@gmail.com has been clicked; until then (or on any network error) visitors get a pre-filled "Send via email" fallback
 - CV download, fully responsive, respects reduced-motion
+
+Live site: https://mavineatieno.vercel.app/
 
 ## Develop
 
