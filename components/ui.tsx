@@ -1,34 +1,27 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode, type MouseEvent } from "react";
-import {
-  animate,
-  motion,
-  useInView,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  type Variants,
-} from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useSpring, type Variants } from "framer-motion";
+import { brandIcons, type BrandIconName } from "@/lib/brand-icons";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-export const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
+/** Blur-and-rise entrance used for every card. */
+export const cardIn: Variants = {
+  hidden: { opacity: 0, y: 50, scale: 0.96, filter: "blur(8px)" },
+  show: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.85, ease } },
 };
 
 export const stagger: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
 };
 
-/** Fades and lifts its children into view once they scroll on screen. */
 export function Reveal({
   children,
   className,
   delay = 0,
-  y = 40,
+  y = 36,
 }: {
   children: ReactNode;
   className?: string;
@@ -40,7 +33,7 @@ export function Reveal({
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.8, delay, ease }}
     >
       {children}
@@ -48,80 +41,24 @@ export function Reveal({
   );
 }
 
-/** Container that staggers `fadeUp` children as it enters the viewport. */
 export function Stagger({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <motion.div
-      className={className}
-      variants={stagger}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-60px" }}
-    >
+    <motion.div className={className} variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }}>
       {children}
     </motion.div>
   );
 }
 
-/**
- * Card with a cursor-following spotlight, gradient border and a subtle 3D tilt —
- * the hover treatment used across premium marketplace themes.
- */
-export function SpotlightCard({
-  children,
-  className = "",
-  tilt = 6,
-}: {
-  children: ReactNode;
-  className?: string;
-  tilt?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const px = useMotionValue(0.5);
-  const py = useMotionValue(0.5);
-  const spring = { stiffness: 200, damping: 20 };
-  const rotateX = useSpring(useTransform(py, [0, 1], [tilt, -tilt]), spring);
-  const rotateY = useSpring(useTransform(px, [0, 1], [-tilt, tilt]), spring);
-
-  function onMove(e: MouseEvent<HTMLDivElement>) {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const x = e.clientX - r.left;
-    const y = e.clientY - r.top;
-    el.style.setProperty("--mx", `${x}px`);
-    el.style.setProperty("--my", `${y}px`);
-    px.set(x / r.width);
-    py.set(y / r.height);
-  }
-
-  function onLeave() {
-    px.set(0.5);
-    py.set(0.5);
-  }
-
+/** Animated card: staggered entrance plus the CSS hover lift, accent bar, shine and icon fill. */
+export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <motion.div
-      variants={fadeUp}
-      style={{ perspective: 1000 }}
-      className="h-full"
-    >
-      <motion.div
-        ref={ref}
-        onMouseMove={onMove}
-        onMouseLeave={onLeave}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        whileHover={{ y: -6 }}
-        transition={{ type: "spring", stiffness: 300, damping: 22 }}
-        className={`spotlight group h-full rounded-3xl ${className}`}
-      >
-        {children}
-      </motion.div>
+    // Entrance motion lives on the wrapper so it never fights the CSS hover transform.
+    <motion.div variants={cardIn} className="h-full">
+      <div className={`card group h-full rounded-2xl ${className}`}>{children}</div>
     </motion.div>
   );
 }
 
-/** Animated number that counts up the first time it is seen. */
 export function Counter({ value, suffix = "", className }: { value: number; suffix?: string; className?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
@@ -130,7 +67,7 @@ export function Counter({ value, suffix = "", className }: { value: number; suff
   useEffect(() => {
     if (!inView) return;
     const controls = animate(0, value, {
-      duration: 2,
+      duration: 1.8,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (v) => setDisplay(Math.round(v)),
     });
@@ -159,35 +96,38 @@ export function SectionHeading({
   center?: boolean;
 }) {
   return (
-    <Reveal className={`mb-14 max-w-3xl ${center ? "mx-auto text-center" : ""}`}>
-      <span
-        className={`mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.03] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-rose`}
-      >
-        <span className="h-1.5 w-1.5 rounded-full bg-rose shadow-[0_0_12px_var(--color-rose)]" />
+    <Reveal className={`mb-12 max-w-2xl lg:mb-14 ${center ? "mx-auto text-center" : ""}`}>
+      <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-brand">
+        <span className="h-px w-8 bg-brand" />
         {eyebrow}
       </span>
-      <h2 className="text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
-        {title}{" "}
-        {accent && <span className="font-serif font-normal italic text-gradient">{accent}</span>}
+      <h2 className="mt-4 text-3xl font-extrabold leading-[1.15] sm:text-4xl lg:text-[2.75rem]">
+        {title} {accent && <span className="text-gradient">{accent}</span>}
       </h2>
-      {text && <p className="mt-5 text-lg leading-relaxed text-mist">{text}</p>}
+      {text && <p className="mt-4 text-base leading-relaxed text-body sm:text-lg">{text}</p>}
     </Reveal>
   );
 }
 
-/** Button that drifts toward the cursor while hovered. */
+export function BrandIcon({ name, className = "h-8 w-8" }: { name: BrandIconName; className?: string }) {
+  const icon = brandIcons[name];
+  return <svg viewBox={icon.viewBox} className={className} aria-hidden="true" dangerouslySetInnerHTML={{ __html: icon.body }} />;
+}
+
 export function MagneticButton({
   children,
   href,
   variant = "primary",
   download,
   external,
+  className = "",
 }: {
   children: ReactNode;
   href: string;
-  variant?: "primary" | "ghost";
+  variant?: "primary" | "outline" | "whatsapp";
   download?: boolean;
   external?: boolean;
+  className?: string;
 }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -196,14 +136,15 @@ export function MagneticButton({
 
   function onMove(e: MouseEvent<HTMLAnchorElement>) {
     const r = e.currentTarget.getBoundingClientRect();
-    x.set((e.clientX - r.left - r.width / 2) * 0.25);
-    y.set((e.clientY - r.top - r.height / 2) * 0.35);
+    x.set((e.clientX - r.left - r.width / 2) * 0.2);
+    y.set((e.clientY - r.top - r.height / 2) * 0.3);
   }
 
-  const styles =
-    variant === "primary"
-      ? "bg-gradient-brand text-white shadow-[0_10px_40px_-10px_rgba(255,77,141,0.7)]"
-      : "border border-white/15 bg-white/[0.04] text-white backdrop-blur hover:bg-white/[0.08]";
+  const styles = {
+    primary: "bg-brand-gradient text-white shadow-[0_12px_30px_-10px_rgba(29,78,216,0.6)]",
+    outline: "border border-line bg-surface text-ink shadow-card hover:border-brand hover:text-brand",
+    whatsapp: "bg-[#25D366] text-white shadow-[0_12px_30px_-10px_rgba(37,211,102,0.6)]",
+  }[variant];
 
   return (
     <motion.a
@@ -218,7 +159,7 @@ export function MagneticButton({
       }}
       style={{ x: sx, y: sy }}
       whileTap={{ scale: 0.96 }}
-      className={`group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full px-7 py-4 text-sm font-semibold transition-colors ${styles}`}
+      className={`group inline-flex items-center justify-center gap-2.5 rounded-full px-6 py-3.5 text-sm font-semibold transition-colors sm:px-7 sm:py-4 ${styles} ${className}`}
     >
       {children}
     </motion.a>

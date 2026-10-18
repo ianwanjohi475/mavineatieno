@@ -1,6 +1,6 @@
-import { BackToTop, Navbar, Preloader, ScrollProgress } from "@/components/Chrome";
+import { FloatingActions, Navbar, Preloader, ScrollProgress } from "@/components/Chrome";
 import Hero from "@/components/Hero";
-import { About, Achievements, Approach, Experience, Marquee, Services, Tools } from "@/components/Sections";
+import { About, Achievements, Approach, Experience, Services, Tools } from "@/components/Sections";
 import { Contact, Education, Footer, Referees } from "@/components/Closing";
 
 export default function Home() {
@@ -11,7 +11,6 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Marquee />
         <About />
         <Services />
         <Experience />
@@ -23,7 +22,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-      <BackToTop />
+      <FloatingActions />
     </>
   );
 }
