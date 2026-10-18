@@ -1,0 +1,29 @@
+import { BackToTop, Navbar, Preloader, ScrollProgress } from "@/components/Chrome";
+import Hero from "@/components/Hero";
+import { About, Achievements, Approach, Experience, Marquee, Services, Tools } from "@/components/Sections";
+import { Contact, Education, Footer, Referees } from "@/components/Closing";
+
+export default function Home() {
+  return (
+    <>
+      <Preloader />
+      <ScrollProgress />
+      <Navbar />
+      <main>
+        <Hero />
+        <Marquee />
+        <About />
+        <Services />
+        <Experience />
+        <Achievements />
+        <Tools />
+        <Approach />
+        <Education />
+        <Referees />
+        <Contact />
+      </main>
+      <Footer />
+      <BackToTop />
+    </>
+  );
+}
