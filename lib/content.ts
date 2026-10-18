@@ -40,15 +40,15 @@ export const profile = {
   linkedin: "https://www.linkedin.com/search/results/all/?keywords=Mavine%20Atieno",
   cv: "/Mavine-Atieno-CV.pdf",
   photo: "/mavine.webp",
+  openTo: ["Customer care leadership", "Customer experience", "Telecommunications operations"],
 };
 
 export const nav = [
-  { id: "home", label: "Home" },
   { id: "about", label: "Profile" },
-  { id: "services", label: "Competencies" },
   { id: "experience", label: "Experience" },
-  { id: "impact", label: "Achievements" },
-  { id: "tools", label: "Skills" },
+  { id: "competencies", label: "Competencies" },
+  { id: "skills", label: "Skills" },
+  { id: "achievements", label: "Achievements" },
   { id: "education", label: "Education" },
   { id: "contact", label: "Contact" },
 ];
@@ -199,6 +199,7 @@ export const experience: Job[] = [
           "Work closely with internal staff to ensure smooth communication between departments.",
           "Support daily administrative operations, including preparing personal and team reports and coordinating routine office activities.",
           "Assist with office coordination by monitoring supplies and supporting daily operational requirements.",
+          "Use SmartOLT, MikroTik and oneISP to manage customer ONUs, fibre-direct connections and accounts, and the CRM system for ticket creation, escalation and tracking.",
         ],
       },
     ],
@@ -302,31 +303,50 @@ export const contribution = {
 
 /* ---------------- Skills & tools ---------------- */
 
-export const smartOlt = {
-  name: "SmartOLT",
-  logo: "/tools/smartolt.png",
-  label: "Network & customer management platform",
-  text: "Used in day-to-day customer support at VTL Telecom to manage customer ONUs and fibre-direct (FTTH) connections, alongside the company CRM for ticket creation, escalation and tracking.",
-  capabilities: ["ONU management", "Fibre-direct (FTTH) customers", "Connection troubleshooting", "Escalation & tracking"],
-};
+export type SkillItem = { name: string; note: string; brand?: BrandIconName; logo?: string; wordmark?: "oneisp"; icon?: Icon; color?: string };
+export type SkillGroup = { title: string; icon: Icon; items: SkillItem[] };
 
-export type Tool = {
-  name: string;
-  category: string;
-  brand?: BrandIconName;
-  icon?: Icon;
-  color: string;
-};
-
-export const tools: Tool[] = [
-  { brand: "word", name: "Microsoft Word", category: "Documents & reports", color: "#2B579A" },
-  { brand: "excel", name: "Microsoft Excel", category: "Records & data", color: "#217346" },
-  { brand: "powerpoint", name: "PowerPoint", category: "Presentations & training", color: "#D24726" },
-  { brand: "gmail", name: "Email & Digital Communication", category: "Client correspondence", color: "#EA4335" },
-  { icon: Ticket, name: "CRM System", category: "Ticket creation, escalation & tracking", color: "#0D9488" },
-  { icon: Headphone, name: "Call Centre Operations", category: "Calls, messages & inquiries", color: "#0F766E" },
-  { icon: Data, name: "Data Entry & Record Management", category: "Accurate customer records", color: "#0D9488" },
-  { icon: ChartSquare, name: "Data Analysis & Reporting", category: "Personal & team reports", color: "#0F766E" },
+export const skillGroups: SkillGroup[] = [
+  {
+    title: "Telecom & ISP systems",
+    icon: Hierarchy,
+    items: [
+      { name: "SmartOLT", note: "Customer ONU and fibre-direct (FTTH) management", logo: "/tools/smartolt.png" },
+      { name: "MikroTik", note: "Router management for customer connectivity", brand: "mikrotik", color: "#293239" },
+      { name: "oneISP", note: "ISP customer accounts and operations", wordmark: "oneisp" },
+      { name: "CRM system", note: "Ticket creation, escalation and tracking", icon: Ticket, color: "#0F766E" },
+    ],
+  },
+  {
+    title: "Office & communication",
+    icon: Briefcase,
+    items: [
+      { name: "Microsoft Word", note: "Reports and documentation", brand: "word" },
+      { name: "Microsoft Excel", note: "Records, data entry and tracking", brand: "excel" },
+      { name: "Microsoft PowerPoint", note: "Training and presentations", brand: "powerpoint" },
+      { name: "Email & digital communication", note: "Client correspondence", brand: "gmail" },
+    ],
+  },
+  {
+    title: "Customer service operations",
+    icon: Headphone,
+    items: [
+      { name: "Call centre operations", note: "Incoming calls, emails, messages and inquiries", icon: Headphone, color: "#0F766E" },
+      { name: "Complaints & escalations", note: "Troubleshooting within SLA timelines", icon: ShieldTick, color: "#0F766E" },
+      { name: "SLA & KPI standards", note: "Service level agreements and team targets", icon: Chart, color: "#0F766E" },
+      { name: "Front office", note: "Appointments, reservations and walk-in clients", icon: People, color: "#0F766E" },
+    ],
+  },
+  {
+    title: "Data & reporting",
+    icon: ChartSquare,
+    items: [
+      { name: "Data entry & record management", note: "Accurate customer and program records", icon: Data, color: "#0F766E" },
+      { name: "Basic data analysis & reporting", note: "Personal and team reports", icon: ChartSquare, color: "#0F766E" },
+      { name: "Program monitoring", note: "Activity reports for NGO programs", icon: TaskSquare, color: "#0F766E" },
+      { name: "Health data collection", note: "Community health documentation", icon: Health, color: "#0F766E" },
+    ],
+  },
 ];
 
 export const skills = [
@@ -397,9 +417,10 @@ export const education = {
 /* ---------------- Referees & declaration ---------------- */
 
 export const referees = [
-  { name: "Mr Collins Asweto", title: "Head of Public Health Department", org: "University of Embu", place: "Embu, Kenya" },
-  { name: "Miss Mary Wanjala", title: "Public Health Officer", org: "Karurumo Rural Health Training Centre, Embu", place: "Nairobi, Kenya" },
-  { name: "Mr Felix Onyango", title: "Ward Coordinator", org: "DREAMS / USAID Tumikia Mtoto Program", place: "Migori, Kenya" },
+  { name: "Miss Damaris Kirai", title: "Administrator", org: "VTL Telecom Company", place: "Nairobi, Kenya", phone: "0768 000 429" },
+  { name: "Mr Collins Asweto", title: "Head of Public Health Department", org: "University of Embu", place: "Embu, Kenya", phone: "0700 713 392" },
+  { name: "Miss Mary Wanjala", title: "Public Health Officer", org: "Karurumo Rural Health Training Centre, Embu", place: "Nairobi, Kenya", phone: "0100 764 640" },
+  { name: "Mr Felix Onyango", title: "Ward Coordinator", org: "DREAMS / USAID Tumikia Mtoto Program", place: "Migori, Kenya", phone: "+254 704 309 010" },
 ];
 
 export const declaration =

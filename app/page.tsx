@@ -1,33 +1,27 @@
-import { FloatingActions, Preloader, Shapes, SideRail, TopBar } from "@/components/Chrome";
+import { FloatingActions, Navbar, Preloader } from "@/components/Chrome";
 import Hero from "@/components/Hero";
-import { About, Achievements, Approach, Contribution, Experience, Services, Tools } from "@/components/Sections";
+import { About, Achievements, Approach, Contribution, Experience, Services, Skills } from "@/components/Sections";
 import { Contact, Education, Footer, Referees } from "@/components/Closing";
 
 export default function Home() {
   return (
     <>
       <Preloader />
-      <Shapes />
-      <TopBar />
-      <SideRail />
-      <div className="px-3 pb-6 sm:px-4 xl:pl-28 xl:pr-8">
-        <div className="mx-auto max-w-[1120px]">
-          <main className="space-y-5 sm:space-y-6">
-            <Hero />
-            <About />
-            <Services />
-            <Experience />
-            <Achievements />
-            <Contribution />
-            <Tools />
-            <Approach />
-            <Education />
-            <Referees />
-            <Contact />
-          </main>
-          <Footer />
-        </div>
-      </div>
+      <Navbar />
+      <main className="mx-auto max-w-6xl space-y-4 px-3 py-4 sm:space-y-6 sm:px-6 sm:py-6">
+        <Hero />
+        <About />
+        <Experience />
+        <Services />
+        <Skills />
+        <Achievements />
+        <Contribution />
+        <Approach />
+        <Education />
+        <Referees />
+        <Contact />
+      </main>
+      <Footer />
       <FloatingActions />
     </>
   );

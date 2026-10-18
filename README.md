@@ -7,14 +7,15 @@ Built with **Next.js (App Router)**, **Tailwind CSS v4**, **Framer Motion**, **I
 ## Features
 
 - Teal theme on soft-grey panels, with a dark-mode toggle (saved per visitor)
-- Fixed icon side menu on large screens, slide-down menu on phones and tablets
+- Sticky top navigation, collapsible menu on phones and tablets
 - Fast CSS preloader (under 1.2s)
 - Floating WhatsApp chat button
-- Hero with a profile card, professional profile summary, count-up stats and an organisations marquee
-- Tiles that blur and rise into view one after another; on hover they lift onto white with a teal glow, the icon badge fills teal and switches from line to filled, and an arrow bubble rolls in
+- Résumé-style header with photo, rotating "Open to work" seal, contact details and key figures
+- Clean card layout; on hover cards lift slightly, the border turns teal and the icon fills in
 - Scroll-linked experience timeline, count-up stats, infinite marquees
-- Tools section with a featured SmartOLT card (ONU / FTTH management) plus Word, Excel, PowerPoint, Outlook, Gmail, WhatsApp, CRM, telephony, records and reporting
-- Contact form that opens the visitor's email app, CV download, fully responsive, respects reduced-motion
+- Grouped skills: Telecom & ISP systems (SmartOLT, MikroTik, oneISP, CRM), office tools, customer service operations, data & reporting
+- Contact form that emails Mavine directly through FormSubmit (no backend needed); the first message sends her a one-time activation email to confirm
+- CV download, fully responsive, respects reduced-motion
 
 ## Develop
 
