@@ -1,33 +1,41 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode, type MouseEvent } from "react";
-import { animate, motion, useInView, useMotionValue, useSpring, type Variants } from "framer-motion";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { animate, motion, useInView, type Variants } from "framer-motion";
+import type { Icon, IconProps } from "iconsax-react";
 import { brandIcons, type BrandIconName } from "@/lib/brand-icons";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/** Blur-and-rise entrance used for every card. */
-export const cardIn: Variants = {
-  hidden: { opacity: 0, y: 50, scale: 0.96, filter: "blur(8px)" },
-  show: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.85, ease } },
+/**
+ * Iconsax wrapper. React 19 ignores `defaultProps` on function components,
+ * so colour, size and variant must always be passed explicitly.
+ */
+export function Ico({ icon: I, size = 22, variant = "Linear", ...rest }: { icon: Icon } & IconProps) {
+  return <I size={size} variant={variant} color="currentColor" aria-hidden="true" {...rest} />;
+}
+
+/** Icon that swaps from the Linear to the Bulk variant when its `.tile` is hovered. */
+export function SwapIco({ icon, size = 26 }: { icon: Icon; size?: number }) {
+  return (
+    <>
+      <Ico icon={icon} size={size} className="ico-rest" />
+      <Ico icon={icon} size={size} variant="Bulk" className="ico-hover" />
+    </>
+  );
+}
+
+export const tileIn: Variants = {
+  hidden: { opacity: 0, y: 44, scale: 0.97, filter: "blur(6px)" },
+  show: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.8, ease } },
 };
 
 export const stagger: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
 };
 
-export function Reveal({
-  children,
-  className,
-  delay = 0,
-  y = 36,
-}: {
-  children: ReactNode;
-  className?: string;
-  delay?: number;
-  y?: number;
-}) {
+export function Reveal({ children, className, delay = 0, y = 32 }: { children: ReactNode; className?: string; delay?: number; y?: number }) {
   return (
     <motion.div
       className={className}
@@ -49,13 +57,56 @@ export function Stagger({ children, className }: { children: ReactNode; classNam
   );
 }
 
-/** Animated card: staggered entrance plus the CSS hover lift, accent bar, shine and icon fill. */
-export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
+/** Staggered tile. Entrance motion lives on the wrapper so it never fights the CSS hover transform. */
+export function Tile({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    // Entrance motion lives on the wrapper so it never fights the CSS hover transform.
-    <motion.div variants={cardIn} className="h-full">
-      <div className={`card group h-full rounded-2xl ${className}`}>{children}</div>
+    <motion.div variants={tileIn} className="h-full">
+      <div className={`tile group h-full ${className}`}>
+        <span className="tile-glow" />
+        {children}
+      </div>
     </motion.div>
+  );
+}
+
+export function Pill({ children, light = false }: { children: ReactNode; light?: boolean }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] ${
+        light ? "bg-white/15 text-white" : "bg-tile text-ink"
+      }`}
+    >
+      <span className={`h-1.5 w-1.5 rounded-full ${light ? "bg-white" : "bg-brand"}`} />
+      {children}
+    </span>
+  );
+}
+
+/** White rounded panel that wraps every section. */
+export function Panel({ id, children, className = "" }: { id?: string; children: ReactNode; className?: string }) {
+  return (
+    <motion.section
+      id={id}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.8, ease }}
+      className={`relative rounded-[28px] border border-line bg-surface p-5 shadow-card sm:rounded-[32px] sm:p-10 lg:p-12 ${className}`}
+    >
+      {children}
+    </motion.section>
+  );
+}
+
+export function Heading({ pill, title, accent, text, center = false }: { pill: string; title: string; accent?: string; text?: string; center?: boolean }) {
+  return (
+    <Reveal className={`mb-9 max-w-2xl sm:mb-11 ${center ? "mx-auto text-center" : ""}`}>
+      <Pill>{pill}</Pill>
+      <h2 className="mt-5 text-[1.9rem] font-semibold leading-[1.15] sm:text-4xl lg:text-[2.7rem]">
+        {title} {accent && <span className="text-gradient">{accent}</span>}
+      </h2>
+      {text && <p className="mt-4 text-base leading-relaxed sm:text-lg">{text}</p>}
+    </Reveal>
   );
 }
 
@@ -66,11 +117,7 @@ export function Counter({ value, suffix = "", className }: { value: number; suff
 
   useEffect(() => {
     if (!inView) return;
-    const controls = animate(0, value, {
-      duration: 1.8,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate: (v) => setDisplay(Math.round(v)),
-    });
+    const controls = animate(0, value, { duration: 1.8, ease: [0.16, 1, 0.3, 1], onUpdate: (v) => setDisplay(Math.round(v)) });
     return () => controls.stop();
   }, [inView, value]);
 
@@ -82,86 +129,35 @@ export function Counter({ value, suffix = "", className }: { value: number; suff
   );
 }
 
-export function SectionHeading({
-  eyebrow,
-  title,
-  accent,
-  text,
-  center = false,
-}: {
-  eyebrow: string;
-  title: string;
-  accent?: string;
-  text?: string;
-  center?: boolean;
-}) {
-  return (
-    <Reveal className={`mb-12 max-w-2xl lg:mb-14 ${center ? "mx-auto text-center" : ""}`}>
-      <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-brand">
-        <span className="h-px w-8 bg-brand" />
-        {eyebrow}
-      </span>
-      <h2 className="mt-4 text-3xl font-extrabold leading-[1.15] sm:text-4xl lg:text-[2.75rem]">
-        {title} {accent && <span className="text-gradient">{accent}</span>}
-      </h2>
-      {text && <p className="mt-4 text-base leading-relaxed text-body sm:text-lg">{text}</p>}
-    </Reveal>
-  );
-}
-
 export function BrandIcon({ name, className = "h-8 w-8" }: { name: BrandIconName; className?: string }) {
   const icon = brandIcons[name];
   return <svg viewBox={icon.viewBox} className={className} aria-hidden="true" dangerouslySetInnerHTML={{ __html: icon.body }} />;
 }
 
-export function MagneticButton({
+export function Button({
   children,
   href,
   variant = "primary",
   download,
-  external,
   className = "",
 }: {
   children: ReactNode;
   href: string;
-  variant?: "primary" | "outline" | "whatsapp";
+  variant?: "primary" | "outline";
   download?: boolean;
-  external?: boolean;
   className?: string;
 }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 250, damping: 15 });
-  const sy = useSpring(y, { stiffness: 250, damping: 15 });
-
-  function onMove(e: MouseEvent<HTMLAnchorElement>) {
-    const r = e.currentTarget.getBoundingClientRect();
-    x.set((e.clientX - r.left - r.width / 2) * 0.2);
-    y.set((e.clientY - r.top - r.height / 2) * 0.3);
-  }
-
-  const styles = {
-    primary: "bg-brand-gradient text-white shadow-[0_12px_30px_-10px_rgba(29,78,216,0.6)]",
-    outline: "border border-line bg-surface text-ink shadow-card hover:border-brand hover:text-brand",
-    whatsapp: "bg-[#25D366] text-white shadow-[0_12px_30px_-10px_rgba(37,211,102,0.6)]",
-  }[variant];
-
+  const styles =
+    variant === "primary"
+      ? "bg-brand-gradient text-white shadow-[0_14px_30px_-12px_rgba(13,148,136,0.7)] hover:shadow-[0_18px_36px_-12px_rgba(13,148,136,0.85)]"
+      : "border border-line bg-surface text-ink hover:border-brand hover:text-brand";
   return (
-    <motion.a
+    <a
       href={href}
       download={download}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noopener noreferrer" : undefined}
-      onMouseMove={onMove}
-      onMouseLeave={() => {
-        x.set(0);
-        y.set(0);
-      }}
-      style={{ x: sx, y: sy }}
-      whileTap={{ scale: 0.96 }}
-      className={`group inline-flex items-center justify-center gap-2.5 rounded-full px-6 py-3.5 text-sm font-semibold transition-colors sm:px-7 sm:py-4 ${styles} ${className}`}
+      className={`group relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-2xl px-6 py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 sm:px-7 sm:py-4 ${styles} ${className}`}
     >
       {children}
-    </motion.a>
+    </a>
   );
 }

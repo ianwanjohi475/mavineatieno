@@ -4,62 +4,52 @@ import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useSpring } from "framer-motion";
 import {
-  ArrowUpRight,
-  Briefcase,
-  CircleCheck,
-  Trophy,
-  Quote,
-  TriangleAlert,
-  Zap,
-  Rocket,
+  ArrowRight,
+  TickCircle,
+  Cup,
   Calendar,
-  MapPin,
-  Signal,
-  Cable,
+  Location,
+  QuoteUp,
+  Danger,
+  Flash,
+  Award,
+  Routing,
   Activity,
-  Wifi,
-  ClipboardList,
-  Network,
-} from "lucide-react";
-import { about, achievements, approach, experience, objective, profile, services, skills, smartOlt, story, tools } from "@/lib/content";
-import { BrandIcon, Card, Counter, Reveal, SectionHeading, Stagger, cardIn } from "./ui";
+  Hierarchy,
+  Personalcard,
+  Briefcase,
+  Hospital,
+  Global,
+} from "iconsax-react";
+import {
+  about,
+  achievementList,
+  achievements,
+  approach,
+  approachIntro,
+  contribution,
+  coreCompetencies,
+  experience,
+  objective,
+  services,
+  skills,
+  smartOlt,
+  story,
+  tools,
+} from "@/lib/content";
+import { BrandIcon, Counter, Heading, Ico, Panel, Reveal, Stagger, SwapIco, Tile, tileIn } from "./ui";
 
 /* ------------------------------------------------------------------ */
-/* About                                                               */
+/* Professional profile                                                */
 /* ------------------------------------------------------------------ */
 
 export function About() {
   return (
-    <section id="about" className="relative py-24 lg:py-32">
-      <div className="mx-auto grid max-w-7xl items-start gap-14 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-        <Reveal className="relative hidden lg:sticky lg:top-28 lg:block">
-          <div className="relative mx-auto max-w-md">
-            <div className="dot-bg absolute -left-6 -top-6 h-40 w-40 rounded-2xl opacity-70" />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-lift">
-              <Image src={profile.photo} alt="Mavine Atieno" fill sizes="450px" className="object-cover object-top transition-transform duration-700 hover:scale-105" />
-            </div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.7 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 160, damping: 15, delay: 0.2 }}
-              className="absolute -bottom-8 -right-8 rounded-2xl bg-brand-gradient p-6 text-white shadow-lift"
-            >
-              <p className="text-5xl font-extrabold leading-none text-white">
-                <Counter value={4} suffix="+" />
-              </p>
-              <p className="mt-2 text-sm font-medium leading-tight text-white/90">
-                Years of people-
-                <br />
-                focused experience
-              </p>
-            </motion.div>
-          </div>
-        </Reveal>
-
+    <Panel id="about">
+      <div className="grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:gap-12">
         <div>
-          <SectionHeading eyebrow="About me" title="Customer service with a" accent="human touch." />
-          <div className="space-y-5 text-base leading-relaxed sm:text-lg">
+          <Heading pill="About me" title="Professional" accent="profile." />
+          <div className="space-y-5 text-base leading-relaxed sm:text-[17px]">
             {about.paragraphs.map((p, i) => (
               <Reveal key={i} delay={i * 0.06}>
                 <p>{p}</p>
@@ -67,58 +57,87 @@ export function About() {
             ))}
           </div>
 
-          <Stagger className="mt-10 grid grid-cols-2 gap-3 sm:gap-4">
+          <Reveal className="mt-8">
+            <p className="mb-3 font-display text-lg font-semibold text-ink">Personal attributes</p>
+            <div className="flex flex-wrap gap-2">
+              {about.attributes.map((a) => (
+                <span key={a} className="inline-flex items-center gap-2 rounded-xl bg-tile px-3.5 py-2 text-sm text-ink">
+                  <Ico icon={TickCircle} size={16} variant="Bulk" className="shrink-0 text-brand" />
+                  {a}
+                </span>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <Stagger className="grid grid-cols-2 gap-3 sm:gap-4">
             {about.facts.map((f) => (
-              <Card key={f.label} className="p-4 sm:p-5">
-                <p className="text-[11px] font-bold uppercase tracking-widest text-brand">{f.label}</p>
-                <p className="mt-1.5 text-sm font-bold text-ink sm:text-base">{f.value}</p>
-              </Card>
+              <Tile key={f.label} className="p-5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{f.label}</p>
+                <p className="tile-title mt-2 font-display text-base font-semibold text-ink sm:text-lg">{f.value}</p>
+              </Tile>
             ))}
           </Stagger>
 
-          <Reveal className="mt-8 flex gap-4 rounded-2xl border-l-4 border-brand bg-brand-soft p-6">
-            <Quote size={28} className="shrink-0 text-brand" />
-            <p className="text-base font-medium italic leading-relaxed text-ink sm:text-lg">{objective}</p>
+          <Reveal className="relative overflow-hidden rounded-[22px] bg-brand-gradient p-6 text-white sm:p-7">
+            <Ico icon={QuoteUp} size={120} variant="Bulk" className="pointer-events-none absolute -bottom-6 -right-4 opacity-15" />
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/75">Career objective</p>
+            <div className="mt-3 space-y-3 text-[15px] font-medium leading-relaxed">
+              {objective.map((o) => (
+                <p key={o}>{o}</p>
+              ))}
+            </div>
           </Reveal>
         </div>
       </div>
-    </section>
+    </Panel>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Expertise                                                           */
+/* Competencies                                                        */
 /* ------------------------------------------------------------------ */
 
 export function Services() {
   return (
-    <section id="services" className="relative bg-bg-soft py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="What I do"
-          title="Core competencies that keep"
-          accent="customers coming back."
-          text="Skills from four years across telecom customer care, NGO programmes and community health."
-        />
-        <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((s, i) => (
-            <Card key={s.title} className="flex flex-col p-7">
-              <div className="flex items-start justify-between">
-                <span className="icon-tile flex h-14 w-14 items-center justify-center rounded-2xl">
-                  <s.icon size={26} strokeWidth={1.8} />
-                </span>
-                <span className="text-sm font-bold text-muted/60">{String(i + 1).padStart(2, "0")}</span>
-              </div>
-              <h3 className="mt-7 text-lg font-bold">{s.title}</h3>
-              <p className="mb-6 mt-2.5 text-sm leading-relaxed">{s.text}</p>
-              <span className="mt-auto flex items-center gap-1.5 text-sm font-semibold text-brand opacity-0 transition-all duration-500 group-hover:translate-x-1 group-hover:opacity-100">
-                Core skill <ArrowUpRight size={16} />
+    <Panel id="services">
+      <Heading pill="Competencies" title="Leadership and management" accent="competencies." />
+      <Stagger className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+        {services.map((s, i) => (
+          <Tile key={s.title} className="flex flex-col p-6 pb-16 sm:p-7 sm:pb-16">
+            <Ico icon={s.icon} size={140} variant="Bulk" className="tile-mark" />
+            <div className="flex items-start justify-between">
+              <span className="tile-badge h-14 w-14 rounded-2xl">
+                <SwapIco icon={s.icon} />
               </span>
-            </Card>
+              <span className="font-display text-sm font-semibold text-muted/70">{String(i + 1).padStart(2, "0")}</span>
+            </div>
+            <h3 className="tile-title mt-6 text-lg font-semibold">{s.title}</h3>
+            <p className="mt-2.5 text-sm leading-relaxed">{s.text}</p>
+            <span className="tile-arrow">
+              <Ico icon={ArrowRight} size={18} />
+            </span>
+          </Tile>
+        ))}
+      </Stagger>
+
+      <div className="mt-10">
+        <p className="mb-4 font-display text-xl font-semibold text-ink">Core competencies</p>
+        <Stagger className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {coreCompetencies.map((c) => (
+            <Tile key={c.text}>
+              <div className="flex items-center gap-3.5 p-3.5">
+                <span className="tile-badge h-11 w-11 shrink-0 rounded-xl">
+                  <SwapIco icon={c.icon} size={20} />
+                </span>
+                <span className="tile-title text-sm font-medium text-ink">{c.text}</span>
+              </div>
+            </Tile>
           ))}
         </Stagger>
       </div>
-    </section>
+    </Panel>
   );
 }
 
@@ -132,244 +151,308 @@ export function Experience() {
   const scaleY = useSpring(scrollYProgress, { stiffness: 100, damping: 25 });
 
   return (
-    <section id="experience" className="relative overflow-clip py-24 lg:py-32">
-      <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.6fr] lg:gap-14">
-        <div className="lg:sticky lg:top-28 lg:self-start">
-          <SectionHeading
-            eyebrow="Career journey"
-            title="Experience that"
-            accent="delivers results."
-            text="From community health fieldwork to leading a telecom customer care team. Every role has been about people."
-          />
-          <Reveal className="grid grid-cols-3 gap-3">
-            {[
-              { v: 3, s: "", l: "Organisations" },
-              { v: 15, s: "", l: "Agents led" },
-              { v: 70, s: "%+", l: "Retention" },
-            ].map((x) => (
-              <div key={x.l} className="rounded-2xl border border-line bg-surface p-4 text-center shadow-card">
-                <Counter value={x.v} suffix={x.s} className="text-2xl font-extrabold text-gradient" />
-                <p className="mt-1 text-xs">{x.l}</p>
-              </div>
-            ))}
-          </Reveal>
-        </div>
+    <Panel id="experience">
+      <Heading pill="Resume" title="Professional" accent="experience." />
 
-        <div ref={ref} className="relative">
-          <div className="absolute bottom-0 left-[19px] top-0 w-0.5 rounded-full bg-line sm:left-[21px]" />
-          <motion.div style={{ scaleY }} className="absolute bottom-0 left-[19px] top-0 w-0.5 origin-top rounded-full bg-brand-gradient sm:left-[21px]" />
+      <div ref={ref} className="relative">
+        <div className="absolute bottom-6 left-[13px] top-3 w-0.5 rounded-full bg-line sm:left-[15px]" />
+        <motion.div style={{ scaleY }} className="absolute bottom-6 left-[13px] top-3 w-0.5 origin-top rounded-full bg-brand-gradient sm:left-[15px]" />
 
-          <div className="space-y-8">
-            {experience.map((job) => (
-              <div key={job.role} className="relative pl-14 sm:pl-16">
-                <motion.span
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ type: "spring", stiffness: 260, damping: 18 }}
-                  className="absolute left-0 top-7 z-10 flex h-10 w-10 items-center justify-center rounded-full border-4 border-bg bg-brand-gradient text-white sm:h-11 sm:w-11"
-                >
-                  <Briefcase size={17} />
-                </motion.span>
+        <div className="space-y-6">
+          {experience.map((job) => (
+            <div key={job.role} className="relative pl-10 sm:pl-14">
+              <motion.span
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ type: "spring", stiffness: 260, damping: 16 }}
+                className="absolute left-0 top-6 z-10 grid h-7 w-7 place-items-center rounded-full border-2 border-brand bg-surface sm:h-8 sm:w-8"
+              >
+                <span className="h-2.5 w-2.5 rounded-full bg-brand" />
+              </motion.span>
 
-                <Stagger>
-                  <Card className="p-6 sm:p-8">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-3 py-1 text-xs font-bold text-brand">
-                        <Calendar size={13} /> {job.period}
+              <Stagger>
+                <Tile className="p-5 sm:p-8">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-semibold text-brand shadow-card">
+                      <Ico icon={Calendar} size={14} /> {job.period}
+                    </span>
+                    {job.current && (
+                      <span className="inline-flex items-center gap-2 rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-white">
+                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" /> Current role
                       </span>
-                      {job.current && (
-                        <span className="inline-flex items-center gap-2 rounded-full bg-emerald-500/12 px-3 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" /> Current role
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="mt-4 text-xl font-bold sm:text-2xl">{job.role}</h3>
-                    <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
-                      <span className="font-bold text-ink/85">{job.org}</span>
-                      <span className="flex items-center gap-1 text-muted"><MapPin size={14} /> {job.place}</span>
-                    </p>
-                    <p className="mt-4 text-sm leading-relaxed sm:text-base">{job.summary}</p>
+                    )}
+                  </div>
+                  <h3 className="tile-title mt-4 text-xl font-semibold sm:text-2xl">{job.role}</h3>
+                  <p className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+                    <span className="flex items-center gap-1.5 font-semibold text-ink/85">
+                      <Ico icon={Briefcase} size={16} className="shrink-0 text-brand" /> {job.org}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-muted">
+                      <Ico icon={Location} size={15} /> {job.place}
+                    </span>
+                  </p>
 
-                    <div className="mt-6 grid gap-6 md:grid-cols-[1.4fr_1fr]">
-                      <ul className="space-y-3">
-                        {job.points.map((pt) => (
-                          <li key={pt} className="flex gap-3 text-sm leading-relaxed">
-                            <CircleCheck size={18} className="mt-0.5 shrink-0 text-brand" />
-                            {pt}
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="self-start rounded-2xl border border-line bg-bg-soft p-5">
-                        <p className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">
-                          <Trophy size={15} /> Highlights
+                  {job.sites && (
+                    <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                      {job.sites.map((site) => (
+                        <div key={site.name} className="flex items-center gap-3 rounded-2xl bg-surface p-3.5 shadow-card">
+                          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand">
+                            <Ico icon={Hospital} size={18} />
+                          </span>
+                          <span className="min-w-0">
+                            <span className="block text-sm font-semibold text-ink">{site.name}</span>
+                            <span className="block text-xs text-muted">{site.period}</span>
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {job.summary && (
+                    <div className="mt-5 rounded-2xl border-l-4 border-brand bg-surface p-4 text-sm leading-relaxed shadow-card sm:text-[15px]">
+                      <span className="mb-1 block text-xs font-semibold uppercase tracking-[0.16em] text-brand">Role overview</span>
+                      {job.summary}
+                    </div>
+                  )}
+
+                  <div className={`mt-6 grid gap-6 ${job.wins.length ? "lg:grid-cols-[1.5fr_1fr]" : ""}`}>
+                    <div className="space-y-6">
+                      {job.groups.map((g) => (
+                        <div key={g.title}>
+                          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted">{g.title}</p>
+                          <ul className="space-y-2.5">
+                            {g.points.map((pt) => (
+                              <li key={pt} className="flex gap-3 text-sm leading-relaxed">
+                                <Ico icon={TickCircle} size={18} variant="Bulk" className="mt-0.5 shrink-0 text-brand" />
+                                {pt}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                    {job.wins.length > 0 && (
+                      <div className="self-start rounded-2xl bg-surface p-5 shadow-card">
+                        <p className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
+                          <Ico icon={Cup} size={16} variant="Bulk" /> Key achievements
                         </p>
                         <ul className="space-y-3">
                           {job.wins.map((w) => (
-                            <li key={w} className="border-l-2 border-brand pl-3 text-sm font-semibold leading-snug text-ink">
+                            <li key={w} className="flex gap-2.5 text-sm font-medium leading-snug text-ink">
+                              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
                               {w}
                             </li>
                           ))}
                         </ul>
                       </div>
-                    </div>
-                  </Card>
-                </Stagger>
-              </div>
-            ))}
-          </div>
+                    )}
+                  </div>
+                </Tile>
+              </Stagger>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </Panel>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Impact                                                              */
+/* Achievements                                                        */
 /* ------------------------------------------------------------------ */
 
 export function Achievements() {
   return (
-    <section className="relative overflow-hidden bg-[#0b1b3a] py-24 text-white lg:py-32 dark:bg-bg-soft">
-      <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#1d4ed8]/30 blur-[120px]" />
-      <div className="pointer-events-none absolute -bottom-40 -left-40 h-[400px] w-[400px] rounded-full bg-[#0ea5e9]/20 blur-[120px]" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
-        <Reveal className="mb-12 max-w-2xl lg:mb-14">
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-sky-300">
-            <span className="h-px w-8 bg-sky-300" /> Impact
-          </span>
-          <h2 className="mt-4 text-3xl font-extrabold leading-[1.15] !text-white sm:text-4xl lg:text-[2.75rem]">
-            Results in <span className="bg-gradient-to-r from-sky-300 to-blue-400 bg-clip-text text-transparent">numbers.</span>
-          </h2>
-        </Reveal>
+    <motion.section
+      id="impact"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#073b37] via-[#0b5d56] to-[#0d9488] p-5 text-white shadow-lift sm:rounded-[32px] sm:p-10 lg:p-12"
+    >
+      <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 animate-drift rounded-[30%] bg-white/5" />
+      <div className="pointer-events-none absolute -bottom-16 left-1/3 h-48 w-48 animate-drift rounded-[30%] bg-white/5 [animation-delay:-6s]" />
 
-        <Stagger className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3">
-          {achievements.map((a) => (
-            <motion.div
-              key={a.label}
-              variants={cardIn}
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur transition-[transform,background-color,border-color] duration-500 hover:-translate-y-2 hover:border-sky-400/40 hover:bg-white/[0.07] sm:p-8"
-            >
-              <span className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-[#1d4ed8] to-[#0ea5e9] transition-transform duration-500 group-hover:scale-x-100" />
-              <Counter value={a.value} suffix={a.suffix} className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl" />
-              <p className="mt-3 text-sm font-bold text-white sm:text-lg">{a.label}</p>
-              <p className="mt-1 text-xs text-slate-300 sm:text-sm">{a.note}</p>
-            </motion.div>
-          ))}
-        </Stagger>
+      <Reveal className="relative mb-9 max-w-2xl sm:mb-11">
+        <span className="inline-flex items-center gap-2 rounded-full bg-white/12 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#5eead4]" /> Achievements
+        </span>
+        <h2 className="mt-5 text-[1.9rem] font-semibold leading-[1.15] !text-white sm:text-4xl lg:text-[2.7rem]">
+          Professional <span className="text-[#5eead4]">achievements.</span>
+        </h2>
+      </Reveal>
 
-        <Reveal className="mt-14">
-          <div className="rounded-3xl bg-white p-6 text-[#4a5872] shadow-2xl sm:p-10 dark:bg-surface dark:text-body">
-            <div className="grid gap-8 lg:grid-cols-[0.75fr_2fr] lg:gap-10">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#1d4ed8] dark:text-brand">Leadership in action</span>
-                <h3 className="mt-3 text-2xl font-extrabold !text-[#0b1b3a] sm:text-3xl dark:!text-ink">{story.title}</h3>
-                <p className="mt-3 text-sm">How I turned a team weakness into a lasting company improvement.</p>
-              </div>
-              <Stagger className="grid gap-4 md:grid-cols-3">
+      <Stagger className="relative grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+        {achievements.map((a) => (
+          <motion.div
+            key={a.label}
+            variants={tileIn}
+            className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.06] p-5 backdrop-blur transition-[transform,background-color,border-color] duration-500 hover:-translate-y-1.5 hover:border-[#5eead4]/40 hover:bg-white/[0.11] sm:p-7"
+          >
+            <span className="absolute right-4 top-4 hidden h-9 w-9 place-items-center rounded-xl bg-white/10 text-[#5eead4] transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110 sm:grid">
+              <Ico icon={Award} size={18} variant="Bulk" />
+            </span>
+            <Counter value={a.value} suffix={a.suffix} className="font-display text-[2rem] font-semibold tracking-tight text-white sm:text-5xl" />
+            <p className="mt-3 text-sm font-semibold text-white sm:text-base">{a.label}</p>
+            <p className="mt-1 text-xs text-white/65 sm:text-sm">{a.note}</p>
+          </motion.div>
+        ))}
+      </Stagger>
+
+      <Reveal className="relative mt-5 sm:mt-6">
+        <div className="rounded-[24px] bg-white p-5 text-[#4d5e5d] sm:p-8 dark:bg-surface dark:text-body">
+          <div className="grid gap-8 lg:grid-cols-2">
+            <div>
+              <p className="mb-4 font-display text-xl font-semibold text-[#0b1f1e] dark:text-ink">Highlights</p>
+              <ul className="space-y-3">
+                {achievementList.map((a) => (
+                  <li key={a} className="flex gap-3 text-sm leading-relaxed">
+                    <Ico icon={TickCircle} size={18} variant="Bulk" className="mt-0.5 shrink-0 text-[#0d9488] dark:text-brand" />
+                    {a}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="mb-4 font-display text-xl font-semibold text-[#0b1f1e] dark:text-ink">{story.title}</p>
+              <Stagger className="grid gap-3">
                 {[
-                  { icon: TriangleAlert, label: "Challenge", text: story.challenge, tint: "text-amber-600 bg-amber-500/10" },
-                  { icon: Zap, label: "Action", text: story.action, tint: "text-[#1d4ed8] bg-[#1d4ed8]/10" },
-                  { icon: Rocket, label: "Result", text: story.result, tint: "text-emerald-600 bg-emerald-500/10" },
-                ].map((s, i) => (
-                  <motion.div key={s.label} variants={cardIn} className="rounded-2xl border border-[#e3e8f1] p-5 dark:border-line">
-                    <span className={`flex h-11 w-11 items-center justify-center rounded-xl ${s.tint}`}>
-                      <s.icon size={20} />
-                    </span>
-                    <p className="mt-4 text-xs font-bold uppercase tracking-widest text-[#0b1b3a]/60 dark:text-ink/60">
-                      0{i + 1} · {s.label}
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed">{s.text}</p>
-                  </motion.div>
+                  { icon: Danger, label: "Challenge", text: story.challenge },
+                  { icon: Flash, label: "Action", text: story.action },
+                  { icon: Cup, label: "Result", text: story.result },
+                ].map((s) => (
+                  <Tile key={s.label}>
+                    <div className="flex gap-4 p-4">
+                      <span className="tile-badge h-11 w-11 shrink-0 rounded-xl">
+                        <SwapIco icon={s.icon} size={20} />
+                      </span>
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">{s.label}</p>
+                        <p className="mt-1 text-sm leading-relaxed">{s.text}</p>
+                      </div>
+                    </div>
+                  </Tile>
                 ))}
               </Stagger>
             </div>
           </div>
-        </Reveal>
-      </div>
-    </section>
+        </div>
+      </Reveal>
+    </motion.section>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Tools                                                               */
+/* Contribution to telecommunications                                  */
 /* ------------------------------------------------------------------ */
 
-const oltIcons = [Network, Activity, Signal, Cable, ClipboardList, Wifi];
+export function Contribution() {
+  return (
+    <Panel>
+      <div className="grid gap-8 lg:grid-cols-[1fr_1.3fr] lg:gap-12">
+        <div>
+          <Heading pill="Telecommunications" title="Contribution to telecommunications" accent="customer service." />
+          <div className="-mt-3 space-y-4 text-base leading-relaxed">
+            {contribution.intro.map((p) => (
+              <Reveal key={p}>
+                <p>{p}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="mb-4 font-display text-lg font-semibold text-ink">Areas of contribution include:</p>
+          <Stagger className="grid gap-3">
+            {contribution.points.map((p, i) => (
+              <Tile key={p}>
+                <div className="flex items-center gap-4 p-4">
+                  <span className="tile-badge h-10 w-10 shrink-0 rounded-xl font-display text-sm font-semibold">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="tile-title text-sm font-medium text-ink sm:text-[15px]">{p}</span>
+                </div>
+              </Tile>
+            ))}
+          </Stagger>
+        </div>
+      </div>
+    </Panel>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Skills & tools                                                      */
+/* ------------------------------------------------------------------ */
+
+const oltIcons = [Routing, Global, Activity, Hierarchy];
 
 export function Tools() {
   return (
-    <section id="tools" className="relative py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="Toolbox"
-          title="Tools & platforms I"
-          accent="use every day."
-          text="The software behind smooth customer operations, fibre network support, clean records and clear reporting."
-          center
-        />
+    <Panel id="tools">
+      <Heading pill="Skills" title="Technical and operational" accent="skills." />
 
-        {/* Featured: SmartOLT */}
-        <Stagger>
-          <Card className="mb-6 p-6 sm:p-10">
-            <div className="grid items-center gap-8 lg:grid-cols-[auto_1fr_1.2fr] lg:gap-10">
-              <div className="mx-auto flex h-36 w-36 items-center justify-center rounded-3xl border border-line bg-white p-4 shadow-card transition-transform duration-500 group-hover:-rotate-2 group-hover:scale-105 sm:h-40 sm:w-40">
+      {/* SmartOLT */}
+      <Stagger>
+        <Tile className="mb-5 p-5 sm:p-8">
+          <div className="grid items-center gap-7 lg:grid-cols-[auto_1fr_1fr] lg:gap-9">
+            <div className="relative mx-auto grid h-32 w-32 place-items-center sm:h-36 sm:w-36">
+              <span className="tool-ring" />
+              <span className="grid h-full w-full place-items-center overflow-hidden rounded-full bg-white p-5 shadow-card transition-transform duration-500 group-hover:scale-105">
                 <Image src={smartOlt.logo} alt="SmartOLT logo" width={225} height={225} className="h-full w-full object-contain" />
-              </div>
-              <div className="text-center lg:text-left">
-                <span className="inline-flex rounded-full bg-brand-soft px-3 py-1 text-xs font-bold text-brand">{smartOlt.label}</span>
-                <h3 className="mt-3 text-2xl font-extrabold sm:text-3xl">{smartOlt.name}</h3>
-                <p className="mt-3 text-sm leading-relaxed sm:text-base">{smartOlt.text}</p>
-              </div>
-              <ul className="grid gap-3 sm:grid-cols-2">
-                {smartOlt.capabilities.map((c, i) => {
-                  const Icon = oltIcons[i];
-                  return (
-                    <li key={c} className="flex items-center gap-3 rounded-xl border border-line bg-bg-soft px-4 py-3 text-sm font-semibold text-ink transition-colors hover:border-brand">
-                      <Icon size={18} className="shrink-0 text-brand" />
-                      {c}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </Card>
-        </Stagger>
-
-        <Stagger className="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-5">
-          {tools.map((t) => (
-            <Card key={t.name} className="flex flex-col items-center p-5 text-center sm:p-7">
-              <span
-                className="relative flex h-16 w-16 items-center justify-center rounded-2xl transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-110 sm:h-[72px] sm:w-[72px]"
-                style={{ background: `${t.color}14`, color: t.color }}
-              >
-                {t.brand ? <BrandIcon name={t.brand} className="h-9 w-9 sm:h-10 sm:w-10" /> : t.icon ? <t.icon size={32} strokeWidth={1.8} /> : null}
               </span>
-              <h3 className="mt-5 text-sm font-bold sm:text-base">{t.name}</h3>
-              <p className="mt-1 text-xs leading-relaxed text-muted">{t.category}</p>
-              <span className="mt-4 h-1 w-8 rounded-full transition-all duration-500 group-hover:w-16" style={{ background: t.color }} />
-            </Card>
+            </div>
+            <div className="text-center lg:text-left">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white">
+                <Ico icon={Personalcard} size={14} variant="Bold" /> {smartOlt.label}
+              </span>
+              <h3 className="tile-title mt-3 text-2xl font-semibold sm:text-3xl">{smartOlt.name}</h3>
+              <p className="mt-3 text-sm leading-relaxed sm:text-[15px]">{smartOlt.text}</p>
+            </div>
+            <ul className="grid gap-2.5 sm:grid-cols-2">
+              {smartOlt.capabilities.map((c, i) => (
+                <li key={c} className="flex items-center gap-3 rounded-2xl bg-surface px-4 py-3 text-sm font-medium text-ink shadow-card">
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand">
+                    <Ico icon={oltIcons[i]} size={17} />
+                  </span>
+                  {c}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Tile>
+      </Stagger>
+
+      <Stagger className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        {tools.map((t) => (
+          <Tile key={t.name} className="flex flex-col items-center px-3 py-6 text-center sm:p-7">
+            <div className="relative grid h-[72px] w-[72px] place-items-center">
+              <span className="tool-ring" />
+              <span className="grid h-[72px] w-[72px] place-items-center rounded-full bg-surface shadow-card transition-transform duration-500 group-hover:scale-110" style={{ color: t.color }}>
+                {t.brand ? <BrandIcon name={t.brand} className="h-9 w-9" /> : t.icon ? <Ico icon={t.icon} size={30} variant="Bulk" /> : null}
+              </span>
+            </div>
+            <h3 className="tile-title mt-5 text-sm font-semibold sm:text-base">{t.name}</h3>
+            <p className="mt-1 text-xs leading-relaxed text-muted">{t.category}</p>
+          </Tile>
+        ))}
+      </Stagger>
+
+      <div className="mt-10">
+        <p className="mb-4 font-display text-xl font-semibold text-ink">Key professional skills</p>
+        <Stagger className="flex flex-wrap gap-2.5">
+          {skills.map((s) => (
+            <motion.span
+              key={s}
+              variants={tileIn}
+              className="group inline-flex cursor-default items-center gap-2 rounded-xl bg-tile px-3.5 py-2.5 text-sm font-medium text-ink transition-colors duration-300 hover:bg-brand hover:text-white"
+            >
+              <Ico icon={TickCircle} size={16} variant="Bulk" className="shrink-0 text-brand transition-colors group-hover:text-white" />
+              {s}
+            </motion.span>
           ))}
         </Stagger>
       </div>
-
-      {/* Skills marquee */}
-      <div className="relative mt-20 space-y-3 [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
-        {[skills.slice(0, 9), skills.slice(9)].map((list, row) => (
-          <div key={row} className="flex overflow-hidden">
-            {[0, 1].map((dup) => (
-              <div key={dup} aria-hidden={dup === 1} className={`flex shrink-0 gap-3 pr-3 ${row === 0 ? "animate-marquee" : "animate-marquee-rev"}`}>
-                {[...list, ...list].map((s, i) => (
-                  <span key={i} className="whitespace-nowrap rounded-full border border-line bg-surface px-5 py-2.5 text-sm font-semibold text-ink/80 shadow-card">
-                    {s}
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </section>
+    </Panel>
   );
 }
 
@@ -379,31 +462,39 @@ export function Tools() {
 
 export function Approach() {
   return (
-    <section className="relative bg-bg-soft py-24 lg:py-32">
-      <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
+    <Panel>
+      <div className="grid gap-8 lg:grid-cols-[1fr_1.3fr] lg:gap-12">
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <SectionHeading
-            eyebrow="Leadership approach"
-            title="How I"
-            accent="lead teams."
-            text="Good customer care leadership takes clear communication, consistent standards, constructive guidance and a real interest in what customers need. I want my agents to feel equipped, supported and accountable."
-          />
+          <Heading pill="Leadership approach" title="My leadership" accent="approach." />
+          <div className="-mt-3 space-y-4 text-base leading-relaxed">
+            {approachIntro.map((p) => (
+              <Reveal key={p}>
+                <p>{p}</p>
+              </Reveal>
+            ))}
+          </div>
         </div>
-        <Stagger className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-          {approach.map((a, i) => (
-            <Card key={a.title} className="p-6 sm:p-7">
-              <div className="flex items-center justify-between">
-                <span className="icon-tile flex h-12 w-12 items-center justify-center rounded-xl">
-                  <a.icon size={22} strokeWidth={1.8} />
+        <div>
+          <p className="mb-4 font-display text-lg font-semibold text-ink">My approach emphasizes:</p>
+          <Stagger className="grid gap-3 sm:grid-cols-2 sm:gap-4">
+            {approach.map((a, i) => (
+              <Tile key={a.text} className="p-6 pb-14">
+                <Ico icon={a.icon} size={110} variant="Bulk" className="tile-mark" />
+                <div className="flex items-center justify-between">
+                  <span className="tile-badge h-12 w-12 rounded-2xl">
+                    <SwapIco icon={a.icon} size={23} />
+                  </span>
+                  <span className="font-display text-xs font-semibold text-muted/70">/ 0{i + 1}</span>
+                </div>
+                <p className="tile-title mt-5 font-display text-base font-semibold leading-snug text-ink">{a.text}</p>
+                <span className="tile-arrow">
+                  <Ico icon={ArrowRight} size={18} />
                 </span>
-                <span className="text-xs font-bold text-muted/60">/ 0{i + 1}</span>
-              </div>
-              <h3 className="mt-5 text-lg font-bold">{a.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed">{a.text}</p>
-            </Card>
-          ))}
-        </Stagger>
+              </Tile>
+            ))}
+          </Stagger>
+        </div>
       </div>
-    </section>
+    </Panel>
   );
 }

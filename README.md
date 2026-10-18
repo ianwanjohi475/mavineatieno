@@ -2,15 +2,16 @@
 
 One-page personal portfolio for **Mavine Brenda Atieno**, Head of Customer Care Agents at VTL Telecom and Community Health graduate (Nairobi, Kenya).
 
-Built with **Next.js (App Router)**, **Tailwind CSS v4**, **Framer Motion**, **Lucide** icons and full-colour brand logos from Iconify (`lib/brand-icons.ts`).
+Built with **Next.js (App Router)**, **Tailwind CSS v4**, **Framer Motion**, **Iconsax** icons and full-colour brand logos from Iconify (`lib/brand-icons.ts`). All copy comes from Mavine's CV and Professional Portfolio documents.
 
 ## Features
 
-- Light corporate theme with a dark-mode toggle (saved per visitor)
-- Fast CSS preloader (under 1.2s), scroll progress bar, sticky navbar with active-section underline
+- Teal theme on soft-grey panels, with a dark-mode toggle (saved per visitor)
+- Fixed icon side menu on large screens, slide-down menu on phones and tablets
+- Fast CSS preloader (under 1.2s)
 - Floating WhatsApp chat button
-- Animated hero: word-by-word reveal, rotating job titles, mouse-parallax portrait, floating stat cards, organisations marquee
-- Cards that blur and rise into view one after another; on hover they lift, show an accent bar and a shine sweep, and the icon fills with the brand gradient
+- Hero with a profile card, professional profile summary, count-up stats and an organisations marquee
+- Tiles that blur and rise into view one after another; on hover they lift onto white with a teal glow, the icon badge fills teal and switches from line to filled, and an arrow bubble rolls in
 - Scroll-linked experience timeline, count-up stats, infinite marquees
 - Tools section with a featured SmartOLT card (ONU / FTTH management) plus Word, Excel, PowerPoint, Outlook, Gmail, WhatsApp, CRM, telephony, records and reporting
 - Contact form that opens the visitor's email app, CV download, fully responsive, respects reduced-motion

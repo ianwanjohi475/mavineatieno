@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -8,15 +8,21 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Mavine Atieno | Customer Care Leader & Public Health Officer",
+  title: "Mavine Brenda Atieno | Customer Care Leadership & Professional Portfolio",
   description:
-    "Portfolio of Mavine Brenda Atieno: Head of Customer Care Agents at VTL Telecom, experienced with SmartOLT and FTTH customer support, entrepreneurship facilitator and Community Health graduate in Nairobi, Kenya.",
+    "Professional portfolio of Mavine Brenda Atieno, Head of Customer Care Representative Agents at VTL Telecom Company, Nairobi, Kenya. Customer Experience · Telecommunications · Public Health Officer.",
   keywords: ["Mavine Atieno", "Customer Care", "Customer Experience", "SmartOLT", "FTTH", "Telecommunications", "Community Health", "Nairobi"],
   authors: [{ name: "Mavine Brenda Atieno" }],
   openGraph: {
-    title: "Mavine Atieno | Customer Care Leader",
-    description: "I lead customer care teams with empathy and accountability, and deliver measurable results.",
+    title: "Mavine Brenda Atieno | Professional Portfolio",
+    description: "Head of Customer Care Representative Agents | Customer Experience | Telecommunications",
     images: ["/mavine.webp"],
     type: "profile",
   },
@@ -25,8 +31,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f7fb" },
-    { media: "(prefers-color-scheme: dark)", color: "#070e1f" },
+    { media: "(prefers-color-scheme: light)", color: "#edf2f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#050b0b" },
   ],
 };
 
@@ -35,7 +41,7 @@ const themeScript = `try{if(localStorage.getItem('theme')==='dark')document.docu
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={jakarta.variable} suppressHydrationWarning>
+    <html lang="en" className={`${jakarta.variable} ${outfit.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

@@ -2,55 +2,56 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Theme tokens: light is the default, `.dark` on <html> switches the palette. */
+/* Teal theme. Light is the default; `.dark` on <html> switches the palette. */
 :root {
-  --bg: #f5f7fb;
-  --bg-soft: #eef2f9;
+  --bg: #edf2f2;
   --surface: #ffffff;
-  --ink: #0b1b3a;
-  --body: #4a5872;
-  --muted: #7a879c;
-  --line: #e3e8f1;
-  --brand: #1d4ed8;
-  --brand-2: #0ea5e9;
-  --brand-soft: #e8efff;
-  --navy: #0b1b3a;
-  --shadow: 0 1px 2px rgb(11 27 58 / 0.04), 0 8px 24px -12px rgb(11 27 58 / 0.12);
-  --shadow-lg: 0 30px 60px -25px rgb(29 78 216 / 0.35), 0 10px 25px -15px rgb(11 27 58 / 0.2);
+  --tile: #f3f7f7;
+  --ink: #0b1f1e;
+  --body: #4d5e5d;
+  --muted: #7b8c8b;
+  --line: #e1e9e8;
+  --brand: #0d9488;
+  --brand-2: #14b8a6;
+  --brand-deep: #0f766e;
+  --brand-soft: #e3f5f2;
+  --shadow: 0 1px 2px rgb(11 31 30 / 0.04), 0 12px 32px -18px rgb(11 31 30 / 0.18);
+  --shadow-lg: 0 28px 55px -24px rgb(13 148 136 / 0.45), 0 10px 22px -16px rgb(11 31 30 / 0.2);
   color-scheme: light;
 }
 
 .dark {
-  --bg: #070e1f;
-  --bg-soft: #0b1530;
-  --surface: #0e1a36;
-  --ink: #eef3ff;
-  --body: #a6b3cc;
-  --muted: #7988a6;
-  --line: rgb(255 255 255 / 0.08);
-  --brand: #4f7dff;
-  --brand-2: #22c3f5;
-  --brand-soft: rgb(79 125 255 / 0.12);
-  --navy: #eef3ff;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.5);
-  --shadow-lg: 0 30px 60px -25px rgb(79 125 255 / 0.35), 0 10px 25px -15px rgb(0 0 0 / 0.6);
+  --bg: #050b0b;
+  --surface: #0b1615;
+  --tile: #11201f;
+  --ink: #ebf6f5;
+  --body: #a2b4b2;
+  --muted: #718583;
+  --line: rgb(255 255 255 / 0.07);
+  --brand: #2dd4bf;
+  --brand-2: #5eead4;
+  --brand-deep: #14b8a6;
+  --brand-soft: rgb(45 212 191 / 0.1);
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -18px rgb(0 0 0 / 0.7);
+  --shadow-lg: 0 28px 55px -24px rgb(45 212 191 / 0.3), 0 10px 22px -16px rgb(0 0 0 / 0.7);
   color-scheme: dark;
 }
 
 @theme inline {
   --color-bg: var(--bg);
-  --color-bg-soft: var(--bg-soft);
   --color-surface: var(--surface);
+  --color-tile: var(--tile);
   --color-ink: var(--ink);
   --color-body: var(--body);
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-brand: var(--brand);
   --color-brand-2: var(--brand-2);
+  --color-brand-deep: var(--brand-deep);
   --color-brand-soft: var(--brand-soft);
-  --color-navy: var(--navy);
 
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), var(--font-jakarta), ui-sans-serif, sans-serif;
 
   --shadow-card: var(--shadow);
   --shadow-lift: var(--shadow-lg);
@@ -59,21 +60,23 @@
 @theme {
   --animate-marquee: marquee 45s linear infinite;
   --animate-marquee-rev: marquee 45s linear infinite reverse;
-  --animate-float: float 6s ease-in-out infinite;
+  --animate-spin-slow: spin 16s linear infinite;
+  --animate-drift: drift 14s ease-in-out infinite;
 
   @keyframes marquee {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
   }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(18px, -26px) rotate(14deg); }
+    66% { transform: translate(-14px, 16px) rotate(-10deg); }
   }
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 90px;
+  scroll-padding-top: 96px;
 }
 
 body {
@@ -85,98 +88,131 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-main { overflow-x: clip; }
-
-h1, h2, h3, h4 { color: var(--ink); letter-spacing: -0.02em; }
+h1, h2, h3, h4 {
+  color: var(--ink);
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
 
 ::selection { background: var(--brand); color: white; }
 
 @utility text-gradient {
-  background: linear-gradient(100deg, var(--brand) 10%, var(--brand-2) 90%);
+  background: linear-gradient(100deg, var(--brand-deep) 0%, var(--brand) 45%, var(--brand-2) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 @utility bg-brand-gradient {
-  background-image: linear-gradient(120deg, var(--brand), var(--brand-2));
+  background-image: linear-gradient(135deg, var(--brand-deep), var(--brand) 55%, var(--brand-2));
 }
 
-@utility dot-bg {
-  background-image: radial-gradient(color-mix(in srgb, var(--brand) 22%, transparent) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
+/* ---------- Tile: the card used across the site ----------
+   Grey inner tile on a white panel. On hover it lifts onto a white surface,
+   gains a teal ring + glow, the icon badge floods teal and switches to the
+   filled Iconsax variant, a corner bubble with an arrow rolls in and a large
+   watermark icon rotates into the corner. */
 
-/* ---------- Card interactions ---------- */
-
-.card {
+.tile {
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  border-radius: 22px;
+  background: var(--tile);
+  border: 1px solid transparent;
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.45s,
+    border-color 0.45s,
+    box-shadow 0.55s;
+}
+.tile:hover {
+  transform: translateY(-6px);
   background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s, border-color 0.5s;
-}
-.card:hover {
-  transform: translateY(-8px);
+  border-color: color-mix(in srgb, var(--brand) 28%, transparent);
   box-shadow: var(--shadow-lg);
-  border-color: color-mix(in srgb, var(--brand) 35%, var(--line));
 }
-/* top accent bar that grows on hover */
-.card::before {
-  content: "";
+
+.tile-glow {
   position: absolute;
-  inset: 0 0 auto 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--brand), var(--brand-2));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  z-index: 2;
-}
-.card:hover::before { transform: scaleX(1); }
-/* diagonal shine sweep */
-.card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -75%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.45), transparent);
-  transform: skewX(-20deg);
+  right: -60px;
+  top: -60px;
+  width: 170px;
+  height: 170px;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--brand) 22%, transparent), transparent 70%);
+  transform: scale(0.3);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s;
+  z-index: -1;
   pointer-events: none;
-  z-index: 1;
 }
-.dark .card::after { background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.07), transparent); }
-.card:hover::after { animation: shine 0.9s ease; }
+.tile:hover .tile-glow { transform: scale(1); opacity: 1; }
 
-@keyframes shine {
-  to { left: 130%; }
-}
-
-/* Icon tile that fills with the brand gradient on card hover */
-.icon-tile {
+.tile-badge {
   position: relative;
-  overflow: hidden;
-  background: var(--brand-soft);
+  display: grid;
+  place-items: center;
+  background: var(--surface);
   color: var(--brand);
-  transition: color 0.4s, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: var(--shadow);
+  transition: background-color 0.45s, color 0.45s, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.5s;
 }
-.icon-tile::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--brand), var(--brand-2));
-  transform: translateY(100%);
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+.tile:hover .tile-badge {
+  background: linear-gradient(135deg, var(--brand-deep), var(--brand) 60%, var(--brand-2));
+  color: #fff;
+  transform: rotate(-8deg) scale(1.06);
+  border-radius: 40%;
 }
-.icon-tile > * { position: relative; }
-.card:hover .icon-tile { color: white; transform: rotate(-6deg) scale(1.06); }
-.card:hover .icon-tile::before { transform: translateY(0); }
+.tile-badge > svg { grid-area: 1 / 1; transition: opacity 0.35s, transform 0.45s; }
+.tile-badge .ico-hover { opacity: 0; transform: scale(0.6); }
+.tile:hover .tile-badge .ico-rest { opacity: 0; transform: scale(0.6); }
+.tile:hover .tile-badge .ico-hover { opacity: 1; transform: scale(1); }
 
-/* ---------- Preloader (pure CSS so it never blocks content) ---------- */
+.tile-title { transition: color 0.4s; }
+.tile:hover .tile-title { color: var(--brand); }
+
+.tile-arrow {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  transform: translate(70px, 70px) rotate(-90deg);
+  transition: transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.tile:hover .tile-arrow { transform: translate(0, 0) rotate(0deg); }
+
+.tile-mark {
+  position: absolute;
+  right: -18px;
+  bottom: -22px;
+  color: var(--brand);
+  opacity: 0;
+  transform: rotate(-25deg) scale(0.7);
+  transition: opacity 0.6s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: -1;
+}
+.tile:hover .tile-mark { opacity: 0.08; transform: rotate(0deg) scale(1); }
+
+/* Round tool badge with a dashed ring that spins on hover */
+.tool-ring {
+  position: absolute;
+  inset: -7px;
+  border-radius: 999px;
+  border: 1.5px dashed color-mix(in srgb, var(--brand) 45%, transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.tile:hover .tool-ring { opacity: 1; animation: spin 7s linear infinite; }
+
+/* ---------- Preloader (pure CSS so it can never block content) ---------- */
 
 .preloader {
   position: fixed;
@@ -187,27 +223,18 @@ h1, h2, h3, h4 { color: var(--ink); letter-spacing: -0.02em; }
   background: var(--bg);
   animation: preloader-out 0.45s cubic-bezier(0.76, 0, 0.24, 1) 0.75s forwards;
 }
-.preloader .bar {
-  width: 120px;
-  height: 3px;
-  border-radius: 99px;
-  background: var(--line);
-  overflow: hidden;
-  margin: 18px auto 0;
+.preloader .ring {
+  position: absolute;
+  inset: -16px;
+  border-radius: 999px;
+  border: 2px solid var(--line);
+  border-top-color: var(--brand);
+  animation: spin 0.8s linear infinite;
 }
-.preloader .bar::after {
-  content: "";
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, var(--brand), var(--brand-2));
-  animation: preloader-bar 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-  transform-origin: left;
-}
-.preloader .mark { animation: preloader-mark 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.preloader .mark { animation: preloader-mark 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
-@keyframes preloader-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-@keyframes preloader-mark { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
-@keyframes preloader-out { to { opacity: 0; visibility: hidden; transform: translateY(-12px); } }
+@keyframes preloader-mark { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+@keyframes preloader-out { to { opacity: 0; visibility: hidden; } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
