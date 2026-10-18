@@ -37,7 +37,7 @@ export const profile = {
   phone: "0717 044 305",
   phoneHref: "tel:+254717044305",
   whatsapp: "https://wa.me/254717044305",
-  linkedin: "https://www.linkedin.com/search/results/all/?keywords=Mavine%20Atieno",
+  linkedin: "https://www.linkedin.com/in/mavine-atieno-0306612b7/",
   cv: "/Mavine-Atieno-CV.pdf",
   photo: "/mavine.webp",
   openTo: ["Customer care leadership", "Customer experience", "Telecommunications operations"],

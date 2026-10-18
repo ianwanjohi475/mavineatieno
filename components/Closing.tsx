@@ -151,7 +151,7 @@ export function Contact() {
                     </span>
                     <span className="min-w-0">
                       <span className="block text-xs text-muted">{c.label}</span>
-                      <span className="block break-all text-[15px] font-semibold text-ink">{c.value}</span>
+                      <span className="block text-sm font-semibold text-ink [overflow-wrap:anywhere] sm:text-[15px]">{c.value}</span>
                     </span>
                   </a>
                 ) : (
@@ -167,6 +167,19 @@ export function Contact() {
                 )}
               </Card>
             ))}
+            <Card className="p-0">
+              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-4">
+                <span className="icon-box h-10 w-10">
+                  <BrandIcon name="linkedin" className="h-[18px] w-[18px]" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-xs text-muted">LinkedIn</span>
+                  <span className="block text-sm font-semibold text-ink [overflow-wrap:anywhere] sm:text-[15px]">
+                    linkedin.com/in/<wbr />mavine-atieno-0306612b7
+                  </span>
+                </span>
+              </a>
+            </Card>
           </Stagger>
         </div>
 
