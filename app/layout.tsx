@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "Mavine Brenda Atieno | Customer Care Leadership & Professional Portfolio",
   description:
     "Professional portfolio of Mavine Brenda Atieno, Head of Customer Care Representative Agents at VTL Telecom Company, Nairobi, Kenya. Customer Experience · Telecommunications · Public Health Officer.",
-  keywords: ["Mavine Atieno", "Customer Care", "Customer Experience", "SmartOLT", "FTTH", "Telecommunications", "Community Health", "Nairobi"],
+  keywords: ["Mavine Atieno", "Customer Care", "Customer Experience", "SmartOLT", "MikroTik", "oneISP", "3CX", "FTTH", "Telecommunications", "Community Health", "Nairobi"],
   authors: [{ name: "Mavine Brenda Atieno" }],
   openGraph: {
     title: "Mavine Brenda Atieno | Professional Portfolio",

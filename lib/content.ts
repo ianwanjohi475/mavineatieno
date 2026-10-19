@@ -199,7 +199,7 @@ export const experience: Job[] = [
           "Work closely with internal staff to ensure smooth communication between departments.",
           "Support daily administrative operations, including preparing personal and team reports and coordinating routine office activities.",
           "Assist with office coordination by monitoring supplies and supporting daily operational requirements.",
-          "Use SmartOLT, MikroTik and oneISP to manage customer ONUs, fibre-direct connections and accounts, and the CRM system for ticket creation, escalation and tracking.",
+          "Use SmartOLT, MikroTik and oneISP to manage customer ONUs, fibre-direct connections and accounts, 3CX to handle customer calls, and the CRM system for ticket creation, escalation and tracking.",
         ],
       },
     ],
@@ -331,6 +331,7 @@ export const skillGroups: SkillGroup[] = [
     title: "Customer service operations",
     icon: Headphone,
     items: [
+      { name: "3CX", note: "Phone system for inbound and outbound customer calls", logo: "/tools/3cx.png" },
       { name: "Call centre operations", note: "Incoming calls, emails, messages and inquiries", icon: Headphone, color: "#0F766E" },
       { name: "Complaints & escalations", note: "Troubleshooting within SLA timelines", icon: ShieldTick, color: "#0F766E" },
       { name: "SLA & KPI standards", note: "Service level agreements and team targets", icon: Chart, color: "#0F766E" },
